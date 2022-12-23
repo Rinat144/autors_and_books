@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +20,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/test', function (){
-    echo 'god';
+Route::controller(AuthorController::class)->prefix('author')->group(function () {
+    Route::get('/all', 'allAuthors');
+    Route::get('/one/{id}', 'oneAuthor');
+    Route::patch('/update/{id}', 'updateAuthor');
+    Route::post('/store', 'storeAuthor');
+    Route::delete('/destroy/{id}', 'destroyAuthor');
+    Route::get('/with_books/{id}', 'authorWithBooks');
+    Route::get('/count_books', 'countBooksAuthor');
 });
+
+Route::controller(BookController::class)->prefix('book')->group(function () {
+    Route::get('/all', 'allBooks');
+    Route::get('/one/{id}', 'oneBook');
+    Route::patch('/update/{id}', 'updateBook');
+    Route::post('/store', 'storeBook');
+    Route::delete('/destroy/{id}', 'destroyBook');
+});
+
