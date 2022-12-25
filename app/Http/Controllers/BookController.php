@@ -10,6 +10,10 @@ final class BookController extends Controller
 {
     private BookService $bookService;
 
+    /**
+     * BookController constructor.
+     * @param BookService $bookService
+     */
     public function __construct(BookService $bookService)
     {
         $this->bookService = $bookService;
@@ -18,9 +22,9 @@ final class BookController extends Controller
     /**
      * @return JsonResponse
      */
-    public function allBooks(): JsonResponse
+    public function getAllBooks(): JsonResponse
     {
-        $allBooks = $this->bookService->allBooks();
+        $allBooks = $this->bookService->getAllBooks();
 
         return response()->json([
             $allBooks
@@ -28,30 +32,30 @@ final class BookController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param int $bookId
      * @return JsonResponse
      */
-    public function oneBook(int $id): JsonResponse
+    public function getBook(int $bookId): JsonResponse
     {
-        $oneBook = $this->bookService->oneBook($id);
+        $infoTheBook = $this->bookService->getBook($bookId);
 
         return response()->json([
-            $oneBook
+            $infoTheBook
         ]);
     }
 
     /**
      * @param BookUpdateStoreRequest $request
-     * @param int $id
+     * @param int $bookId
      * @return JsonResponse
      */
-    public function updateBook(BookUpdateStoreRequest $request, int $id): JsonResponse
+    public function updateBook(BookUpdateStoreRequest $request, int $bookId): JsonResponse
     {
-        $data = $request->all();
-        $updateBook = $this->bookService->updateBook($data, $id);
+        $validatedData = $request->all();
+        $bookData = $this->bookService->updateBook($validatedData, $bookId);
 
         return response()->json([
-            $updateBook
+            $bookData
         ]);
     }
 
@@ -59,26 +63,26 @@ final class BookController extends Controller
      * @param BookUpdateStoreRequest $request
      * @return JsonResponse
      */
-    public function storeBook(BookUpdateStoreRequest $request): JsonResponse
+    public function createBook(BookUpdateStoreRequest $request): JsonResponse
     {
-        $data = $request->all();
-        $storeBook = $this->bookService->storeBook($data);
+        $validatedData = $request->all();
+        $bookData = $this->bookService->createBook($validatedData);
 
         return response()->json([
-            $storeBook
+            $bookData
         ]);
     }
 
     /**
-     * @param int $id
+     * @param int $bookId
      * @return JsonResponse
      */
-    public function destroyBook(int $id): JsonResponse
+    public function destroyBook(int $bookId): JsonResponse
     {
-        $destroyBook = $this->bookService->destroyBook($id);
+        $bookData = $this->bookService->destroyBook($bookId);
 
         return response()->json([
-            $destroyBook
+            $bookData
         ]);
 
     }

@@ -10,6 +10,10 @@ class AuthorController extends Controller
 {
     private AuthorService $authorService;
 
+    /**
+     * AuthorController constructor.
+     * @param AuthorService $authorService
+     */
     public function __construct(AuthorService $authorService)
     {
         $this->authorService = $authorService;
@@ -18,77 +22,77 @@ class AuthorController extends Controller
     /**
      * @return JsonResponse
      */
-    public function allAuthors(): JsonResponse
+    public function getAllAuthors(): JsonResponse
     {
-        $allAuthor = $this->authorService->allAuthor();
+        $authors = $this->authorService->getAllAuthors();
 
         return response()->json([
-            $allAuthor
+            $authors
         ]);
     }
 
     /**
-     * @param int $id
+     * @param int $authorId
      * @return JsonResponse
      */
-    public function oneAuthor(int $id): JsonResponse
+    public function getAuthor(int $authorId): JsonResponse
     {
-        $oneAuthor = $this->authorService->oneAuthor($id);
+        $authorData = $this->authorService->getAuthor($authorId);
 
         return response()->json([
-            $oneAuthor
-        ]);
-    }
-
-    /**
-     * @param AuthorStoreUpdateRequest $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function updateAuthor(AuthorStoreUpdateRequest $request, int $id): JsonResponse
-    {
-        $data = $request->all();
-        $updateAuthor = $this->authorService->updateAuthor($data, $id);
-
-        return response()->json([
-            $updateAuthor
+            $authorData
         ]);
     }
 
     /**
      * @param AuthorStoreUpdateRequest $request
+     * @param int $authorId
      * @return JsonResponse
      */
-    public function storeAuthor(AuthorStoreUpdateRequest $request): JsonResponse
+    public function updateAuthor(AuthorStoreUpdateRequest $request, int $authorId): JsonResponse
     {
-        $data = $request->all();
-        $storeAuthor = $this->authorService->storeAuthor($data);
+        $updateUserInfo = $request->all();
+        $authorData = $this->authorService->updateAuthor($updateUserInfo, $authorId);
 
         return response()->json([
-            $storeAuthor
+            $authorData
         ]);
     }
 
     /**
-     * @param int $id
+     * @param AuthorStoreUpdateRequest $request
      * @return JsonResponse
      */
-    public function destroyAuthor(int $id): JsonResponse
+    public function createAuthor(AuthorStoreUpdateRequest $request): JsonResponse
     {
-        $destroyAuthor = $this->authorService->destroyAuthor($id);
+        $validatedData = $request->all();
+        $authorData = $this->authorService->createAuthor($validatedData);
 
         return response()->json([
-            $destroyAuthor
+            $authorData
         ]);
     }
 
     /**
-     * @param int $id
+     * @param int $authorId
      * @return JsonResponse
      */
-    public function authorWithBooks(int $id): JsonResponse
+    public function destroyAuthor(int $authorId): JsonResponse
     {
-        $authorsWithBooks = $this->authorService->authorWithBooks($id);
+        $authorsData = $this->authorService->destroyAuthor($authorId);
+
+        return response()->json([
+            $authorsData
+        ]);
+    }
+
+    /**
+     * @param int $authorId
+     * @return JsonResponse
+     */
+    public function getAuthorWithBooks(int $authorId): JsonResponse
+    {
+        $authorsWithBooks = $this->authorService->getAuthorWithBooks($authorId);
 
         return response()->json([
             $authorsWithBooks
@@ -98,9 +102,10 @@ class AuthorController extends Controller
     /**
      * @return JsonResponse
      */
-    public function countBooksAuthor(): JsonResponse
+    public function getCountBooksAuthor(): JsonResponse
     {
-        $countBooksAuthor = $this->authorService->countBooksAuthor();
+        $countBooksAuthor = $this->authorService->getCountBooksAuthor();
+
         return response()->json([
             $countBooksAuthor
         ]);

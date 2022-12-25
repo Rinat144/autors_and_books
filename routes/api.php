@@ -21,20 +21,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(AuthorController::class)->prefix('author')->group(function () {
-    Route::get('/all', 'allAuthors');
-    Route::get('/one/{id}', 'oneAuthor');
+    Route::get('/all', 'getAllAuthors');
+    Route::get('/one/{id}', 'getAuthor');
     Route::patch('/update/{id}', 'updateAuthor');
-    Route::post('/store', 'storeAuthor');
+    Route::post('/store', 'createAuthor');
     Route::delete('/destroy/{id}', 'destroyAuthor');
-    Route::get('/with_books/{id}', 'authorWithBooks');
-    Route::get('/count_books', 'countBooksAuthor');
+    Route::get('/with_books/{id}', 'getAuthorWithBooks');
+    Route::get('/count_books', 'getCountBooksAuthor');
 });
 
 Route::controller(BookController::class)->prefix('book')->group(function () {
-    Route::get('/all', 'allBooks');
-    Route::get('/one/{id}', 'oneBook');
+    Route::get('/all', 'getAllBooks');
+    Route::get('/one/{id}', 'getBook');
     Route::patch('/update/{id}', 'updateBook');
-    Route::post('/store', 'storeBook');
+    Route::post('/store', 'createBook');
     Route::delete('/destroy/{id}', 'destroyBook');
 });
 

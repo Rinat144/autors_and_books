@@ -17,6 +17,7 @@ class AuthorFactory extends Factory
      * @return array<string, mixed>
      */
     protected $model = Author::class;
+
     public function definition()
     {
         $name = $this->faker->name . ' ' . $this->faker->firstName;

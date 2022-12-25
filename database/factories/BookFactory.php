@@ -17,6 +17,7 @@ class BookFactory extends Factory
      * @return array<string, mixed>
      */
     protected $model = Book::class;
+
     public function definition()
     {
         return [

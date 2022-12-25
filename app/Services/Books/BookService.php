@@ -4,61 +4,60 @@ namespace App\Services\Books;
 
 use App\Models\Book;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 class BookService
 {
+    private const PAGINATION_FOR_BOOKS = 10;
+
     /**
      * @return LengthAwarePaginator
      */
-    public function allBooks(): LengthAwarePaginator
+    public function getAllBooks(): LengthAwarePaginator
     {
-        return Book::query()->paginate(15);
+        return Book::query()->paginate(self::PAGINATION_FOR_BOOKS);
     }
 
     /**
-     * @param int $id
-     * @return Model|Collection|Builder|array|null
+     * @param int $bookId
+     * @return mixed
      */
-    public function oneBook(int $id): Model|Collection|Builder|array|null
+    public function getBook(int $bookId): mixed
     {
-        return Book::query()->find($id);
+        return Book::query()->find($bookId);
     }
 
     /**
-     * @param array $data
-     * @param int $id
+     * @param array $validatedData
+     * @param int $bookId
      * @return bool|int
      */
-    public function updateBook(array $data, int $id): bool|int
+    public function updateBook(array $validatedData, int $bookId): bool|int
     {
-        return Book::query()->find($id)
+        return Book::query()->find($bookId)
             ->update([
-                'name' => $data['name'],
-                'author_id' => $data['author_id']
+                'name' => $validatedData['name'],
+                'author_id' => $validatedData['author_id']
             ]);
     }
 
     /**
-     * @param array $data
+     * @param array $validatedData
      * @return bool
      */
-    public function storeBook(array $data): bool
+    public function createBook(array $validatedData): bool
     {
         return Book::query()->insert([
-            'name' => $data['name'],
-            'author_id' => $data['author_id']
+            'name' => $validatedData['name'],
+            'author_id' => $validatedData['author_id']
         ]);
     }
 
     /**
-     * @param int $id
+     * @param int $bookId
      * @return int
      */
-    public function destroyBook(int $id): int
+    public function destroyBook(int $bookId): int
     {
-        return Book::destroy($id);
+        return Book::destroy($bookId);
     }
 }

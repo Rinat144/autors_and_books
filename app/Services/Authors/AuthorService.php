@@ -4,83 +4,82 @@ namespace App\Services\Authors;
 
 use App\Models\Author;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\HigherOrderBuilderProxy;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HigherOrderCollectionProxy;
 use Illuminate\Support\Str;
 
 class AuthorService
 {
+    private const PAGINATION_FOR_AUTHORS = 10;
+
     /**
      * @return LengthAwarePaginator
      */
-    public function allAuthor(): LengthAwarePaginator
+    public function getAllAuthors(): LengthAwarePaginator
     {
-        return Author::query()->paginate(10);
+        return Author::query()->paginate(self::PAGINATION_FOR_AUTHORS);
     }
 
     /**
-     * @param int $id
-     * @return Model|Collection|Builder|array|null
+     * @param int $authorId
+     * @return mixed
      */
-    public function oneAuthor(int $id): Model|Collection|Builder|array|null
+    public function getAuthor(int $authorId): mixed
     {
-        return Author::query()->find($id);
+        return Author::query()->find($authorId);
     }
 
     /**
-     * @param array $data
-     * @param int $id
+     * @param array $updateUserInfo
+     * @param int $authorId
      * @return bool|int
      */
-    public function updateAuthor(array $data, int $id): bool|int
+    public function updateAuthor(array $updateUserInfo, int $authorId): bool|int
     {
-        return Author::query()->find($id)
+        return Author::query()->find($authorId)
             ->update([
-                'name' => $data['name'],
-                'date_at' => $data['date_at'],
-                'slug' => Str::slug($data['name'], '-')
+                'name' => $updateUserInfo['name'],
+                'date_at' => $updateUserInfo['date_at'],
+                'slug' => Str::slug($updateUserInfo['name'], '-')
             ]);
     }
 
     /**
-     * @param array $data
+     * @param array $createUserInfo
      * @return bool
      */
-    public function storeAuthor(array $data): bool
+    public function createAuthor(array $createUserInfo): bool
     {
         return Author::query()->insert([
-            'name' => $data['name'],
-            'date_at' => $data['date_at'],
-            'slug' => Str::slug($data['name'], '-')
+            'name' => $createUserInfo['name'],
+            'date_at' => $createUserInfo['date_at'],
+            'slug' => Str::slug($createUserInfo['name'], '-')
         ]);
     }
 
     /**
-     * @param int $id
-     * @return mixed
+     * @param int $authorId
+     * @return int
      */
-    public function destroyAuthor(int $id): mixed
+    public function destroyAuthor(int $authorId): int
     {
-        return Author::query()->find($id)->delete();
+        return Author::destroy($authorId);
     }
 
     /**
-     * @param int $id
+     * @param int $authorId
      * @return HigherOrderBuilderProxy|HigherOrderCollectionProxy|mixed
      */
-    public function authorWithBooks(int $id): mixed
+    public function getAuthorWithBooks(int $authorId): mixed
     {
-        return Author::query()->find($id)->books;
+        return Author::query()->find($authorId)->books;
     }
 
     /**
      * @return LengthAwarePaginator
      */
-    public function countBooksAuthor(): LengthAwarePaginator
+    public function getCountBooksAuthor(): LengthAwarePaginator
     {
-        return Author::query()->withCount('books')->paginate(10);
+        return Author::query()->withCount('books')->paginate(self::PAGINATION_FOR_AUTHORS);
     }
 }
