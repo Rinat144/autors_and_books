@@ -24,10 +24,10 @@ final class BookController extends Controller
      */
     public function getAllBooks(): JsonResponse
     {
-        $allBooks = $this->bookService->getAllBooks();
+        $books = $this->bookService->getAllBooks();
 
         return response()->json([
-            $allBooks
+            $books
         ]);
     }
 
@@ -37,10 +37,10 @@ final class BookController extends Controller
      */
     public function getBook(int $bookId): JsonResponse
     {
-        $infoTheBook = $this->bookService->getBook($bookId);
+        $book = $this->bookService->getBook($bookId);
 
         return response()->json([
-            $infoTheBook
+            $book
         ]);
     }
 
@@ -79,10 +79,10 @@ final class BookController extends Controller
      */
     public function destroyBook(int $bookId): JsonResponse
     {
-        $bookData = $this->bookService->destroyBook($bookId);
+        $destroyStatus = $this->bookService->destroyBook($bookId);
 
         return response()->json([
-            $bookData
+            $destroyStatus
         ]);
 
     }

@@ -92,10 +92,10 @@ class AuthorController extends Controller
      */
     public function getAuthorWithBooks(int $authorId): JsonResponse
     {
-        $authorsWithBooks = $this->authorService->getAuthorWithBooks($authorId);
+        $authorWithBooks = $this->authorService->getAuthorWithBooks($authorId);
 
         return response()->json([
-            $authorsWithBooks
+            $authorWithBooks
         ]);
     }
 
