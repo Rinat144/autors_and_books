@@ -2,19 +2,28 @@
 
 namespace App\Services\Books;
 
-use App\Models\Book;
+use App\Repositories\Book\BookRepositories;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class BookService
 {
-    private const PAGINATION_FOR_BOOKS = 10;
+    private BookRepositories $bookRepositories;
+
+    /**
+     * BookService constructor.
+     * @param BookRepositories $bookRepositories
+     */
+    public function __construct(BookRepositories $bookRepositories)
+    {
+        $this->bookRepositories = $bookRepositories;
+    }
 
     /**
      * @return LengthAwarePaginator
      */
     public function getAllBooks(): LengthAwarePaginator
     {
-        return Book::query()->paginate(self::PAGINATION_FOR_BOOKS);
+        return $this->bookRepositories->paginate();
     }
 
     /**
@@ -23,7 +32,7 @@ class BookService
      */
     public function getBook(int $bookId): mixed
     {
-        return Book::query()->find($bookId);
+        return $this->bookRepositories->find($bookId);
     }
 
     /**
@@ -33,11 +42,7 @@ class BookService
      */
     public function updateBook(array $validatedData, int $bookId): bool|int
     {
-        return Book::query()->find($bookId)
-            ->update([
-                'name' => $validatedData['name'],
-                'author_id' => $validatedData['author_id']
-            ]);
+        return $this->bookRepositories->update($validatedData, $bookId);
     }
 
     /**
@@ -46,10 +51,7 @@ class BookService
      */
     public function createBook(array $validatedData): bool
     {
-        return Book::query()->insert([
-            'name' => $validatedData['name'],
-            'author_id' => $validatedData['author_id']
-        ]);
+        return $this->bookRepositories->create($validatedData);
     }
 
     /**
@@ -58,6 +60,6 @@ class BookService
      */
     public function destroyBook(int $bookId): int
     {
-        return Book::destroy($bookId);
+        return $this->bookRepositories->destroy($bookId);
     }
 }
