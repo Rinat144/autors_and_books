@@ -7,14 +7,14 @@ namespace App\Repositories\Book;
 use App\Models\Book;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class BookRepositories
+class BookRepository
 {
     private const PAGINATION_FOR_BOOKS = 10;
 
     /**
      * @return LengthAwarePaginator
      */
-    public function paginate(): LengthAwarePaginator
+    public function getBookWithPaginate(): LengthAwarePaginator
     {
         return Book::query()->paginate(self::PAGINATION_FOR_BOOKS);
     }
@@ -35,7 +35,7 @@ class BookRepositories
      */
     public function update(array $validatedData, int $bookId): bool|int
     {
-        return Book::query()->find($bookId)
+        return $this->find($bookId)
             ->update([
                 'name' => $validatedData['name'],
                 'author_id' => $validatedData['author_id']

@@ -2,18 +2,18 @@
 
 namespace App\Services\Books;
 
-use App\Repositories\Book\BookRepositories;
+use App\Repositories\Book\BookRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class BookService
 {
-    private BookRepositories $bookRepositories;
+    private BookRepository $bookRepositories;
 
     /**
      * BookService constructor.
-     * @param BookRepositories $bookRepositories
+     * @param BookRepository $bookRepositories
      */
-    public function __construct(BookRepositories $bookRepositories)
+    public function __construct(BookRepository $bookRepositories)
     {
         $this->bookRepositories = $bookRepositories;
     }
@@ -23,7 +23,7 @@ class BookService
      */
     public function getAllBooks(): LengthAwarePaginator
     {
-        return $this->bookRepositories->paginate();
+        return $this->bookRepositories->getBookWithPaginate();
     }
 
     /**

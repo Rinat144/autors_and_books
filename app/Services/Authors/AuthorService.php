@@ -2,19 +2,18 @@
 
 namespace App\Services\Authors;
 
-use App\Models\Author;
-use App\Repositories\Author\AuthorRepositories;
+use App\Repositories\Author\AuthorRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class AuthorService
 {
-    private AuthorRepositories $authorRepositories;
+    private AuthorRepository $authorRepositories;
 
     /**
      * AuthorService constructor.
-     * @param AuthorRepositories $authorRepositories
+     * @param AuthorRepository $authorRepositories
      */
-    public function __construct(AuthorRepositories $authorRepositories)
+    public function __construct(AuthorRepository $authorRepositories)
     {
         $this->authorRepositories = $authorRepositories;
     }
@@ -24,7 +23,7 @@ class AuthorService
      */
     public function getAllAuthors(): LengthAwarePaginator
     {
-        return $this->authorRepositories->paginate();
+        return $this->authorRepositories->getAuthorWithPaginate();
     }
 
     /**

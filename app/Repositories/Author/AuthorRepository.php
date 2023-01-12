@@ -8,14 +8,14 @@ use App\Models\Author;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
-class AuthorRepositories
+class AuthorRepository
 {
     protected const PAGINATION_FOR_AUTHORS = 10;
 
     /**
      * @return LengthAwarePaginator
      */
-    public function paginate(): LengthAwarePaginator
+    public function getAuthorWithPaginate(): LengthAwarePaginator
     {
         return Author::query()->paginate(self::PAGINATION_FOR_AUTHORS);
     }
@@ -36,7 +36,7 @@ class AuthorRepositories
      */
     public function update(array $updateUserInfo, int $authorId): bool|int
     {
-        return Author::query()->find($authorId)
+        return $this->find($authorId)
             ->update([
                 'name' => $updateUserInfo['name'],
                 'date_at' => $updateUserInfo['date_at'],
