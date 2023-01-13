@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Author;
 
+use App\DTO\AuthorDTO\StoreUpdateAuthorDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuthorStoreUpdateRequest extends FormRequest
@@ -27,5 +28,16 @@ class AuthorStoreUpdateRequest extends FormRequest
             'name' => 'required|max:255|string',
             'date_at' => 'required|date',
         ];
+    }
+
+    /**
+     * @return StoreUpdateAuthorDTO
+     */
+    public function getDto(): StoreUpdateAuthorDTO
+    {
+        return new StoreUpdateAuthorDTO(
+            name: $this->get('name'),
+            date_at: $this->get('date_at')
+        );
     }
 }

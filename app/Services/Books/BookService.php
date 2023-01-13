@@ -2,6 +2,8 @@
 
 namespace App\Services\Books;
 
+use App\DTO\AuthorDTO\StoreUpdateAuthorDTO;
+use App\DTO\BookDTO\StoreUpdateBookDTO;
 use App\Repositories\Book\BookRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -40,18 +42,18 @@ class BookService
      * @param int $bookId
      * @return bool|int
      */
-    public function updateBook(array $validatedData, int $bookId): bool|int
+    public function updateBook(StoreUpdateBookDTO $storeUpdateBookDTO, int $bookId): bool|int
     {
-        return $this->bookRepositories->update($validatedData, $bookId);
+        return $this->bookRepositories->update($storeUpdateBookDTO, $bookId);
     }
 
     /**
      * @param array $validatedData
      * @return bool
      */
-    public function createBook(array $validatedData): bool
+    public function createBook(StoreUpdateBookDTO $storeUpdateBookDTO): bool
     {
-        return $this->bookRepositories->create($validatedData);
+        return $this->bookRepositories->create($storeUpdateBookDTO);
     }
 
     /**

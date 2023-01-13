@@ -4,6 +4,7 @@
 namespace App\Repositories\Book;
 
 
+use App\DTO\BookDTO\StoreUpdateBookDTO;
 use App\Models\Book;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -33,12 +34,12 @@ class BookRepository
      * @param int $bookId
      * @return bool|int
      */
-    public function update(array $validatedData, int $bookId): bool|int
+    public function update(StoreUpdateBookDTO $storeUpdateBookDTO, int $bookId): bool|int
     {
         return $this->find($bookId)
             ->update([
-                'name' => $validatedData['name'],
-                'author_id' => $validatedData['author_id']
+                'name' => $storeUpdateBookDTO->name,
+                'author_id' => $storeUpdateBookDTO->author_id
             ]);
     }
 
@@ -46,11 +47,11 @@ class BookRepository
      * @param array $validatedData
      * @return bool
      */
-    public function create(array $validatedData): bool
+    public function create(StoreUpdateBookDTO $storeUpdateBookDTO): bool
     {
         return Book::query()->insert([
-            'name' => $validatedData['name'],
-            'author_id' => $validatedData['author_id']
+            'name' => $storeUpdateBookDTO->name,
+            'author_id' => $storeUpdateBookDTO->author_id
         ]);
     }
 

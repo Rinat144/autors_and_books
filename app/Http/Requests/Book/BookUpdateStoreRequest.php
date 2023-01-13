@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Book;
 
+use App\DTO\BookDTO\StoreUpdateBookDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookUpdateStoreRequest extends FormRequest
@@ -27,5 +28,16 @@ class BookUpdateStoreRequest extends FormRequest
             'name' => 'required|string',
             'author_id' => 'required|integer'
         ];
+    }
+
+    /**
+     * @return StoreUpdateBookDTO
+     */
+    public function getDto(): StoreUpdateBookDTO
+    {
+        return new StoreUpdateBookDTO(
+            name: $this->get('name'),
+            author_id: $this->get('author_id')
+        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\UpdateAuthorDTO;
 use App\Http\Requests\Author\AuthorStoreUpdateRequest;
 use App\Services\Authors\AuthorService;
 use Illuminate\Http\JsonResponse;
@@ -51,8 +52,7 @@ class AuthorController extends Controller
      */
     public function updateAuthor(AuthorStoreUpdateRequest $request, int $authorId): JsonResponse
     {
-        $updateUserInfo = $request->all();
-        $authorData = $this->authorService->updateAuthor($updateUserInfo, $authorId);
+        $authorData = $this->authorService->updateAuthor($request->getDto(), $authorId);
 
         return response()->json([
             $authorData
@@ -65,8 +65,7 @@ class AuthorController extends Controller
      */
     public function createAuthor(AuthorStoreUpdateRequest $request): JsonResponse
     {
-        $validatedData = $request->all();
-        $authorData = $this->authorService->createAuthor($validatedData);
+        $authorData = $this->authorService->createAuthor($request->getDto());
 
         return response()->json([
             $authorData

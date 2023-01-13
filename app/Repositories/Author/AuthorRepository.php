@@ -4,6 +4,7 @@
 namespace App\Repositories\Author;
 
 
+use App\DTO\AuthorDTO\StoreUpdateAuthorDTO;
 use App\Models\Author;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -34,13 +35,13 @@ class AuthorRepository
      * @param int $authorId
      * @return bool|int
      */
-    public function update(array $updateUserInfo, int $authorId): bool|int
+    public function update(StoreUpdateAuthorDTO $storeUpdateAuthorDTO, int $authorId): bool|int
     {
         return $this->find($authorId)
             ->update([
-                'name' => $updateUserInfo['name'],
-                'date_at' => $updateUserInfo['date_at'],
-                'slug' => Str::slug($updateUserInfo['name'], '-')
+                'name' => $storeUpdateAuthorDTO->name,
+                'date_at' => $storeUpdateAuthorDTO->date_at,
+                'slug' => Str::slug($storeUpdateAuthorDTO->name, '-')
             ]);
     }
 
@@ -48,12 +49,12 @@ class AuthorRepository
      * @param array $createUserInfo
      * @return bool
      */
-    public function create(array $createUserInfo): bool
+    public function create(StoreUpdateAuthorDTO $storeUpdateAuthorDTO): bool
     {
         return Author::query()->insert([
-            'name' => $createUserInfo['name'],
-            'date_at' => $createUserInfo['date_at'],
-            'slug' => Str::slug($createUserInfo['name'], '-')
+            'name' => $storeUpdateAuthorDTO->name,
+            'date_at' => $storeUpdateAuthorDTO->date_at,
+            'slug' => Str::slug($storeUpdateAuthorDTO->name, '-')
         ]);
     }
 

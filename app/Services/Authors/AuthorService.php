@@ -2,6 +2,7 @@
 
 namespace App\Services\Authors;
 
+use App\DTO\AuthorDTO\StoreUpdateAuthorDTO;
 use App\Repositories\Author\AuthorRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -40,18 +41,18 @@ class AuthorService
      * @param int $authorId
      * @return bool|int
      */
-    public function updateAuthor(array $updateUserInfo, int $authorId): bool|int
+    public function updateAuthor(StoreUpdateAuthorDTO $storeUpdateAuthorDTO, int $authorId): bool|int
     {
-        return $this->authorRepositories->update($updateUserInfo, $authorId);
+        return $this->authorRepositories->update($storeUpdateAuthorDTO, $authorId);
     }
 
     /**
      * @param array $createUserInfo
      * @return bool
      */
-    public function createAuthor(array $createUserInfo): bool
+    public function createAuthor(StoreUpdateAuthorDTO $storeUpdateAuthorDTO): bool
     {
-        return $this->authorRepositories->create($createUserInfo);
+        return $this->authorRepositories->create($storeUpdateAuthorDTO);
     }
 
     /**

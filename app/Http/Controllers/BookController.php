@@ -51,8 +51,7 @@ final class BookController extends Controller
      */
     public function updateBook(BookUpdateStoreRequest $request, int $bookId): JsonResponse
     {
-        $validatedData = $request->all();
-        $bookData = $this->bookService->updateBook($validatedData, $bookId);
+        $bookData = $this->bookService->updateBook($request->getDto(), $bookId);
 
         return response()->json([
             $bookData
@@ -65,8 +64,7 @@ final class BookController extends Controller
      */
     public function createBook(BookUpdateStoreRequest $request): JsonResponse
     {
-        $validatedData = $request->all();
-        $bookData = $this->bookService->createBook($validatedData);
+        $bookData = $this->bookService->createBook($request->getDto());
 
         return response()->json([
             $bookData
